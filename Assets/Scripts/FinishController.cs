@@ -45,7 +45,7 @@ public class FinishController : MonoBehaviour
 			this.timer.text = Timer.GetFormattedTime(num);
 			this.pbTimer.text = "Best | " + Timer.GetFormattedTime(SaveManager.Instance.state.times[map]);
 		}
-		else if (GameState.Instance.gamemode == Gamemode.Race)
+		else if (GameState.Instance.gamemode == Gamemode.Race | GameState.Instance.gamemode == Gamemode.Multiplayer)
 		{
 			this.racePanel.SetActive(true);
 			if (victory)
@@ -57,10 +57,11 @@ public class FinishController : MonoBehaviour
 				this.victoryText.text = "Defeat";
 			}
 		}
+
 		this.CheckUnlocks(victory);
 		int num4 = 50;
 		int num5 = 50;
-		if (GameState.Instance.gamemode == Gamemode.Race)
+		if (GameState.Instance.gamemode == Gamemode.Race | GameState.Instance.gamemode == Gamemode.Multiplayer)
 		{
 			this.progressRace.SetProgress(SaveManager.Instance.state.xp, SaveManager.Instance.state.xp + num4, SaveManager.Instance.state.GetLevel(), SaveManager.Instance.state.money, SaveManager.Instance.state.money + num5);
 		}
@@ -80,7 +81,7 @@ public class FinishController : MonoBehaviour
 	private void CheckUnlocks(bool victory)
 	{
 		int map = GameState.Instance.map;
-		if (GameState.Instance.gamemode == Gamemode.Race && victory)
+		if ((GameState.Instance.gamemode == Gamemode.Race | GameState.Instance.gamemode == Gamemode.Multiplayer) && victory)
 		{
 			int num = SaveManager.Instance.state.races[map];
 			int difficulty = (int)GameState.Instance.difficulty;

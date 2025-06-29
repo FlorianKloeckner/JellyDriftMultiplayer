@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,7 +25,14 @@ public class Pause : MonoBehaviour
 		{
 			return;
 		}
-		Time.timeScale = 0f;
+		if (GameState.Instance.gamemode != Gamemode.Multiplayer)
+		{
+			Time.timeScale = 0f;
+		}
+		else 
+		{
+			UIManager.Instance.ToggleMultiplayerBanner();
+		}
 		this.pauseMenu.SetActive(true);
 		this.paused = true;
 	}
@@ -35,6 +43,7 @@ public class Pause : MonoBehaviour
 		Time.timeScale = 1f;
 		this.pauseMenu.SetActive(false);
 		this.paused = false;
+		if (GameState.Instance.gamemode == Gamemode.Multiplayer) { UIManager.Instance.ToggleMultiplayerBanner(); }
 	}
 
 	// Token: 0x060000FC RID: 252 RVA: 0x0000654A File Offset: 0x0000474A
@@ -59,10 +68,12 @@ public class Pause : MonoBehaviour
 	// Token: 0x060000FF RID: 255 RVA: 0x0000658F File Offset: 0x0000478F
 	public void TogglePause()
 	{
-		if (!GameController.Instance.playing)
+		
+		/*if (!GameController.Instance.playing)
 		{
 			return;
 		}
+		*/
 		if (!this.paused)
 		{
 			this.PauseGame();
@@ -74,6 +85,7 @@ public class Pause : MonoBehaviour
 	// Token: 0x06000100 RID: 256 RVA: 0x000065B3 File Offset: 0x000047B3
 	public void Quit()
 	{
+		NetworkManager.Singleton.Shutdown();
 		Time.timeScale = 1f;
 		SceneManager.LoadScene("Menu");
 		this.paused = false;
@@ -84,5 +96,6 @@ public class Pause : MonoBehaviour
 
 	// Token: 0x04000116 RID: 278
 	public GameObject pauseMenu;
+	public GameObject codePanel;
 	
 }

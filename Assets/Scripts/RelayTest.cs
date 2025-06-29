@@ -15,7 +15,7 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
 
-    [SerializeField] private InputField codeInputField;
+    [SerializeField] private TMP_InputField codeInputField;
     // Start is called before the first frame update
     private async void Start()
     {
